@@ -3,7 +3,10 @@ description: "A Flutter package for playing GIFs with features like play, pause,
 version: 0.0.1
 homepage: https://github.com/meetleev
 repository: https://github.com/meetleev/flutter_gif_player
-
+topics:
+  - gif
+  - gif player
+  - gif controls
 environment:
   sdk: ">=2.18.0 <4.0.0"
   flutter: ">=3.3.0"
