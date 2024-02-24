@@ -6,7 +6,7 @@ The GIF player Flutter package offers functionality for playing, pausing, and se
 
 ## Preview
 
-![](https://github.com/meetleev/static_resources/blob/main/gif_player/gif_player)
+![](https://github.com/meetleev/static_resources/blob/main/gif_player/gif_player.gif)
 
 ## Getting Started
 
