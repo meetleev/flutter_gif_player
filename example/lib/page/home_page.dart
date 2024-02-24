@@ -82,7 +82,7 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
 
   ///Save video to file, so we can use it later
   Future _saveAssetVideoToFile() async {
-    if ( kIsWeb) return;
+    if (kIsWeb) return;
     var content = await rootBundle.load(assetGifUrl);
     final directory = await getTemporaryDirectory();
     File file = File('${directory.path}/$fileGifName');

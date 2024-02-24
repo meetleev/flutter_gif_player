@@ -63,7 +63,7 @@ class _DataSourcePageState extends State<DataSourcePage> {
       body: null != _controller
           ? Stack(
               children: [
-                GifPlayer(controller:controller),
+                GifPlayer(controller: controller),
                 Container(
                   margin: const EdgeInsets.only(top: 100),
                   alignment: Alignment.topCenter,

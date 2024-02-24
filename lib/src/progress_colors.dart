@@ -15,5 +15,4 @@ class ProgressColors {
   final Paint bufferedPaint;
   final Paint handlePaint;
   final Paint backgroundPaint;
-
 }

@@ -16,7 +16,8 @@ abstract class ControlsState<T extends StatefulWidget> extends State<T> {
 
   GifPlayerController get controller => _controller!;
 
-  GifPlayerControlsConfiguration get controlsConf => controller.controlsConfiguration;
+  GifPlayerControlsConfiguration get controlsConf =>
+      controller.controlsConfiguration;
 
   bool wasLoading = false;
   Timer? _hideControlsTimer;
@@ -109,7 +110,7 @@ abstract class ControlsState<T extends StatefulWidget> extends State<T> {
 
   Widget buildMain({required Widget child}) {
     return GestureDetector(
-      onTap: ()=> _restartControlsTimer(),
+      onTap: () => _restartControlsTimer(),
       child: child,
     );
   }

@@ -29,7 +29,8 @@ class _ProgressBarPaddingBottomPageState
     _controller?.dispose();
     _controller = GifPlayerController(
         dataSource: GifPlayerDataSource.asset(assetGifUrl),
-        controlsConf: GifPlayerControlsConfiguration(paddingBottom: paddingBottom));
+        controlsConf:
+            GifPlayerControlsConfiguration(paddingBottom: paddingBottom));
     setState(() {});
   }
 

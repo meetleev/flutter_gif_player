@@ -5,6 +5,7 @@ typedef GifPlayerEventListener = void Function(GifPlayerEvent event);
 class GifPlayerEvent {
   /// The type of the event. see [GifPlayerEventType]
   final GifPlayerEventType eventType;
+
   /// The data of the event.
   final Object? data;
 

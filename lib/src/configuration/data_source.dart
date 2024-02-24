@@ -1,4 +1,3 @@
-
 enum GifPlayerDataSourceType {
   /// The gif was included in the app's asset files.
   asset,
