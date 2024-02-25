@@ -75,8 +75,8 @@ class CupertinoControlsState extends ControlsState<CupertinoControls> {
                   child: Row(
                     children: [
                       _buildSkipBack(iconColor),
-                      _buildPlayPause(iconColor, barHeight),
-                      _buildSkipForward(iconColor, barHeight),
+                      _buildPlayPause(iconColor),
+                      _buildSkipForward(iconColor),
                       _buildPosition(iconColor),
                       _buildProgressBar(),
                       _buildRemaining(iconColor)
@@ -144,8 +144,7 @@ class CupertinoControlsState extends ControlsState<CupertinoControls> {
   }
 
   Widget _buildPlayPause(
-    Color iconColor,
-    double barHeight,
+    Color iconColor
   ) {
     return Container(
       margin: const EdgeInsets.only(
@@ -185,7 +184,7 @@ class CupertinoControlsState extends ControlsState<CupertinoControls> {
     );
   }
 
-  GestureDetector _buildSkipForward(Color iconColor, double barHeight) {
+  GestureDetector _buildSkipForward(Color iconColor) {
     return GestureDetector(
       onTap: skipForward,
       child: Container(

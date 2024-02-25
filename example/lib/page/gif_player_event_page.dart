@@ -18,7 +18,7 @@ class _GifPlayerEventPageState extends State<GifPlayerEventPage> {
   @override
   void initState() {
     super.initState();
-    _loadVideo();
+    _loadGif();
     controller.addPlayerEventListener(_onPlayerEvent);
   }
 
@@ -50,7 +50,7 @@ class _GifPlayerEventPageState extends State<GifPlayerEventPage> {
     }
   }
 
-  _loadVideo() {
+  void _loadGif() {
     _controller?.dispose();
     _controller = GifPlayerController(
         backgroundColor: Colors.black,

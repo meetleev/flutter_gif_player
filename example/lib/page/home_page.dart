@@ -59,7 +59,7 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
     );
   }
 
-  _buildExampleElementWidget(String name, Function() onClicked) {
+  Widget _buildExampleElementWidget(String name, Function() onClicked) {
     return InkWell(
       onTap: onClicked,
       child: Column(
@@ -80,7 +80,7 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
     );
   }
 
-  ///Save video to file, so we can use it later
+  /// Save gif to file, so we can use it later
   Future _saveAssetVideoToFile() async {
     if (kIsWeb) return;
     var content = await rootBundle.load(assetGifUrl);

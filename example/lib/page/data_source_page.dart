@@ -22,10 +22,10 @@ class _DataSourcePageState extends State<DataSourcePage> {
   @override
   void initState() {
     super.initState();
-    _loadVideo(GifPlayerDataSourceType.values[0]);
+    _loadGif(GifPlayerDataSourceType.values[0]);
   }
 
-  _loadVideo(GifPlayerDataSourceType type) {
+  void _loadGif(GifPlayerDataSourceType type) {
     _controller?.dispose();
     switch (type) {
       case GifPlayerDataSourceType.asset:
@@ -72,7 +72,7 @@ class _DataSourcePageState extends State<DataSourcePage> {
                     buttons: buttonLabs,
                     onSelected: (title, idx, selected) {
                       _groupButtonController.selectIndex(idx);
-                      _loadVideo(GifPlayerDataSourceType.values[idx]);
+                      _loadGif(GifPlayerDataSourceType.values[idx]);
                     },
                   ),
                 )

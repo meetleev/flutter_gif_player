@@ -144,7 +144,7 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
 
   Future<void> play() async {
     value = value.copyWith(isPlaying: true);
-    await runLoop();
+    await _runLoop();
     emit(GifPlayerEvent(eventType: GifPlayerEventType.play));
   }
 
@@ -236,7 +236,7 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
       _gifFrames.add(imageInfo);
     }
     value = GifPlayerValue(
-        duration: _gifFrames.length,
+        duration: _gifFrames.length - 1,
         position: 0,
         isInitialized: true,
         size: size);
@@ -254,15 +254,15 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
       if (value.position < value.duration) {
         value = value.copyWith(position: value.position + 1);
       } else if (value.isLooping) {
-        value = value.copyWith(position: 1);
+        value = value.copyWith(position: 0);
       } else {
         value = value.copyWith(isCompleted: true, isPlaying: false);
       }
     }
-    await runLoop();
+    await _runLoop();
   }
 
-  Future<void> runLoop() async {
+  Future<void> _runLoop() async {
     if (value.isPlaying) {
       await _playNextFrame();
     } else if (value.isCompleted) {
@@ -276,19 +276,19 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
       pos = _fixPosition(pos);
       value = value.copyWith(position: pos);
     }
-    return _gifFrames[value.position - 1];
+    return _gifFrames[value.position ];
   }
 
   bool _isNeedFixPosition(int position) {
-    if (1 > position || value.duration < position) {
+    if (0 > position || value.duration < position) {
       return true;
     }
     return false;
   }
 
   int _fixPosition(int position) {
-    if (1 > position) {
-      return 1;
+    if (0 > position) {
+      return 0;
     }
     if (value.duration < position) {
       return value.duration;

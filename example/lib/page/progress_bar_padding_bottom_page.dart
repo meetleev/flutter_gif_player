@@ -22,10 +22,10 @@ class _ProgressBarPaddingBottomPageState
   @override
   void initState() {
     super.initState();
-    _loadVideo(20);
+    _loadGif(20);
   }
 
-  void _loadVideo(double paddingBottom) {
+  void _loadGif(double paddingBottom) {
     _controller?.dispose();
     _controller = GifPlayerController(
         dataSource: GifPlayerDataSource.asset(assetGifUrl),
@@ -52,7 +52,7 @@ class _ProgressBarPaddingBottomPageState
                     buttons: const [20, 40, 60, 80, 100],
                     onSelected: (int title, idx, selected) {
                       _groupButtonController.selectIndex(idx);
-                      _loadVideo(title.toDouble());
+                      _loadGif(title.toDouble());
                     },
                   ),
                 )

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../gif_player_controller.dart';
@@ -27,10 +29,7 @@ class ProgressBar extends StatefulWidget {
   final bool drawShadow;
 
   @override
-  // ignore: library_private_types_in_public_api
-  _VideoProgressBarState createState() {
-    return _VideoProgressBarState();
-  }
+  State<ProgressBar> createState() => _VideoProgressBarState();
 }
 
 class _VideoProgressBarState extends State<ProgressBar> {
@@ -157,7 +156,8 @@ class _ProgressBarPainter extends CustomPainter {
     if (!value.isInitialized) {
       return;
     }
-    final double playedPartPercent = value.position / value.duration;
+
+    final double playedPartPercent = value.position  / value.duration;
     final double playedPart =
         playedPartPercent > 1 ? size.width : playedPartPercent * size.width;
     canvas.drawRRect(

@@ -65,6 +65,10 @@ abstract class ControlsState<T extends StatefulWidget> extends State<T> {
     if (mounted) {
       wasLoading = !controller.value.isInitialized;
       if (!isFinished) {
+        if (!controller.value.isPlaying) {
+          _hideControlsTimer?.cancel();
+          changePlayerControlsVisible(true);
+        }
         setState(() {});
       } else {
         _hideControlsTimer?.cancel();
