@@ -299,6 +299,7 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
   @override
   void dispose() {
     pause();
+    _streamController.close();
     super.dispose();
   }
 
