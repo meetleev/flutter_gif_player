@@ -100,9 +100,7 @@ abstract class ControlsState<T extends StatefulWidget> extends State<T> {
   }
 
   void _startHideControlsTimer() {
-    final hideControlsTimer = controller.hideControlsTimer.isNegative
-        ? GifPlayerController.defaultHideControlsTimer
-        : controller.hideControlsTimer;
+    final hideControlsTimer = controller.hideControlsTimer;
     _hideControlsTimer = Timer(hideControlsTimer, () {
       changePlayerControlsVisible(false);
     });

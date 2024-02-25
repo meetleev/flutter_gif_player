@@ -32,13 +32,19 @@ class GifPlayerValue {
   /// True if gif has finished playing to end.
   final bool isCompleted;
 
+  /// The [size] of the currently loaded gif.
+  /// The size is [Size.zero] if the gif hasn't been initialized.
+  final Size size;
+
   GifPlayerValue(
       {required this.duration,
       this.isInitialized = false,
       this.position = 0,
       this.isPlaying = false,
       this.isLooping = false,
-      this.isCompleted = false});
+      this.isCompleted = false,
+      Size? size})
+      : size = size ?? Size.zero;
 
   GifPlayerValue copyWith(
       {int? duration,
@@ -46,23 +52,25 @@ class GifPlayerValue {
       bool? isInitialized,
       bool? isPlaying,
       bool? isLooping,
-      bool? isCompleted}) {
+      bool? isCompleted,
+      Size? size}) {
     return GifPlayerValue(
         duration: duration ?? this.duration,
         position: position ?? this.position,
         isInitialized: isInitialized ?? this.isInitialized,
         isPlaying: isPlaying ?? this.isPlaying,
         isLooping: isLooping ?? this.isLooping,
-        isCompleted: isCompleted ?? this.isCompleted);
+        isCompleted: isCompleted ?? this.isCompleted,
+        size: size ?? this.size);
   }
 }
 
-class GifPlayerController extends ValueNotifier<GifPlayerValue> {
-  static const defaultHideControlsTimer = Duration(seconds: 3);
+const _defaultHideControlsTimer = Duration(seconds: 3);
 
+class GifPlayerController extends ValueNotifier<GifPlayerValue> {
   final GifPlayerDataSource dataSource;
 
-  /// The placeholder is displayed underneath the Video before it is initialized or played.
+  /// The placeholder is displayed underneath the gif before it is initialized or played.
   final Widget? placeholder;
 
   /// Flag used to store full screen mode state.
@@ -106,7 +114,7 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
       this.customControls,
       this.isAutoPlay = true,
       bool isAutoInitialize = true,
-      this.hideControlsTimer = defaultHideControlsTimer,
+      this.hideControlsTimer = _defaultHideControlsTimer,
       GifPlayerControlsConfiguration? controlsConf})
       : controlsConfiguration =
             controlsConf ?? GifPlayerControlsConfiguration(),
@@ -220,12 +228,18 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
       allowUpscaling: false,
     );
     _gifFrames.clear();
+    Size? size;
     for (int i = 0; i < codec.frameCount; i++) {
       final imageInfo = await codec.getNextFrame();
+      size ??= Size(
+          imageInfo.image.width.toDouble(), imageInfo.image.height.toDouble());
       _gifFrames.add(imageInfo);
     }
     value = GifPlayerValue(
-        duration: _gifFrames.length, position: 0, isInitialized: true);
+        duration: _gifFrames.length,
+        position: 0,
+        isInitialized: true,
+        size: size);
     emit(GifPlayerEvent(eventType: GifPlayerEventType.initialized));
     initializeCompleter.complete();
     if (isAutoPlay) {
