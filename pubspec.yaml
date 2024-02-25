@@ -1,6 +1,6 @@
 name: gif_player
 description: "A Flutter package for playing GIFs with features like play, pause, and seek. Control your GIF playback easily in your app."
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/meetleev
 repository: https://github.com/meetleev/flutter_gif_player
 topics:

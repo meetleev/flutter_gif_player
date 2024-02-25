@@ -1,4 +1,4 @@
-### 0.0.3
+## 0.0.4
 
 * Fixed an issue where an error was reported when adding GifPlayer to the list with infinite height or infinite width.
 
