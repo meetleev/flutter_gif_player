@@ -143,9 +143,7 @@ class CupertinoControlsState extends ControlsState<CupertinoControls> {
     );
   }
 
-  Widget _buildPlayPause(
-    Color iconColor
-  ) {
+  Widget _buildPlayPause(Color iconColor) {
     return Container(
       margin: const EdgeInsets.only(
         left: 6.0,

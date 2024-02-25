@@ -276,7 +276,7 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
       pos = _fixPosition(pos);
       value = value.copyWith(position: pos);
     }
-    return _gifFrames[value.position ];
+    return _gifFrames[value.position];
   }
 
   bool _isNeedFixPosition(int position) {

@@ -157,7 +157,7 @@ class _ProgressBarPainter extends CustomPainter {
       return;
     }
 
-    final double playedPartPercent = value.position  / value.duration;
+    final double playedPartPercent = value.position / value.duration;
     final double playedPart =
         playedPartPercent > 1 ? size.width : playedPartPercent * size.width;
     canvas.drawRRect(
