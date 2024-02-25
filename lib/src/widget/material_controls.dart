@@ -50,12 +50,10 @@ class MaterialControlsState extends ControlsState<MaterialControls> {
   }
 
   Widget _buildBottomBar(Color? iconColor, double barHeight) {
-    return SafeArea(
-        bottom: controller.isFullScreen,
-        child: AnimatedOpacity(
-          opacity: !controlsVisible ? 0 : 1,
-          duration: const Duration(milliseconds: 300),
-          child: Container(
+    return AnimatedOpacity(
+        opacity: !controlsVisible ? 0 : 1,
+        duration: const Duration(milliseconds: 300),
+        child: Container(
             color: controlsConf.materialBackgroundColor,
             height: barHeight,
             padding: const EdgeInsets.symmetric(
@@ -72,9 +70,7 @@ class MaterialControlsState extends ControlsState<MaterialControls> {
                 ),
                 _buildProgressBar(),
               ],
-            ),
-          ),
-        ));
+            )));
   }
 
   Widget _buildPosition(Color? iconColor) {

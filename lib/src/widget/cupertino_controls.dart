@@ -59,10 +59,7 @@ class CupertinoControlsState extends ControlsState<CupertinoControls> {
 
   Widget _buildBottomBar(double barHeight) {
     final iconColor = controlsConf.cupertinoIconColor;
-    return /*SafeArea(
-        bottom: controller.isFullScreen,
-        child:*/
-        AnimatedOpacity(
+    return AnimatedOpacity(
       opacity: !controlsVisible ? 0 : 1,
       duration: const Duration(milliseconds: 300),
       child: Container(
@@ -74,9 +71,10 @@ class CupertinoControlsState extends ControlsState<CupertinoControls> {
               child: Container(
                   height: barHeight,
                   color: controlsConf.cupertinoBackgroundColor,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     children: [
-                      _buildSkipBack(iconColor, barHeight),
+                      _buildSkipBack(iconColor),
                       _buildPlayPause(iconColor, barHeight),
                       _buildSkipForward(iconColor, barHeight),
                       _buildPosition(iconColor),
@@ -86,14 +84,13 @@ class CupertinoControlsState extends ControlsState<CupertinoControls> {
                   ))),
         ),
       ),
-      // )
     );
   }
 
   Widget _buildProgressBar() {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 12.0),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10.0),
         child: buildVideoProgressBarAdapter(
           color: controlsConf.cupertinoProgressColors ??
               ProgressColors(
@@ -129,26 +126,20 @@ class CupertinoControlsState extends ControlsState<CupertinoControls> {
 
   Widget _buildPosition(Color? iconColor) {
     final position = controller.value.position;
-    return Padding(
-      padding: const EdgeInsets.only(right: 12.0),
-      child: Text(
-        position.toString(),
-        style: TextStyle(
-          color: iconColor,
-          fontSize: 12.0,
-        ),
+    return Text(
+      position.toString(),
+      style: TextStyle(
+        color: iconColor,
+        fontSize: 12.0,
       ),
     );
   }
 
   Widget _buildRemaining(Color? iconColor) {
     final position = controller.value.duration - controller.value.position;
-    return Padding(
-      padding: const EdgeInsets.only(right: 12.0),
-      child: Text(
-        '-$position',
-        style: TextStyle(color: iconColor, fontSize: 12.0),
-      ),
+    return Text(
+      '-$position',
+      style: TextStyle(color: iconColor, fontSize: 12.0),
     );
   }
 
@@ -157,7 +148,6 @@ class CupertinoControlsState extends ControlsState<CupertinoControls> {
     double barHeight,
   ) {
     return Container(
-      // color: Colors.transparent,
       margin: const EdgeInsets.only(
         left: 6.0,
         right: 6.0,
@@ -172,34 +162,25 @@ class CupertinoControlsState extends ControlsState<CupertinoControls> {
     );
   }
 
-  GestureDetector _buildSkipBack(Color iconColor, double barHeight) {
+  GestureDetector _buildSkipBack(Color iconColor) {
     return GestureDetector(
       onTap: skipBack,
-      child: Container(
-        height: barHeight,
-        // color: Colors.transparent,
-        margin: const EdgeInsets.only(left: 10.0),
-        padding: const EdgeInsets.only(
-          left: 6.0,
-          right: 6.0,
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Icon(
-              CupertinoIcons.gobackward,
-              color: iconColor,
-              size: 18.0,
-            ),
-            const Text(
-              '1',
-              style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 9,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Icon(
+            CupertinoIcons.gobackward,
+            color: iconColor,
+            size: 18.0,
+          ),
+          const Text(
+            '1',
+            style: TextStyle(
+                color: Colors.white70,
+                fontSize: 9,
+                fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
     );
   }
@@ -208,12 +189,6 @@ class CupertinoControlsState extends ControlsState<CupertinoControls> {
     return GestureDetector(
       onTap: skipForward,
       child: Container(
-        height: barHeight,
-        // color: Colors.transparent,
-        padding: const EdgeInsets.only(
-          left: 6.0,
-          right: 8.0,
-        ),
         margin: const EdgeInsets.only(
           right: 8.0,
         ),
