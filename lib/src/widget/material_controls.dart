@@ -56,7 +56,7 @@ class MaterialControlsState extends ControlsState<MaterialControls> {
         child: Container(
             color: controlsConf.materialBackgroundColor,
             height: barHeight,
-            padding: const EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
               horizontal: 20,
             ),
             child: Column(
