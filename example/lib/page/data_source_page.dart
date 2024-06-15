@@ -1,4 +1,5 @@
 import 'package:example/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gif_player/gif_player.dart';
@@ -26,7 +27,7 @@ class _DataSourcePageState extends State<DataSourcePage> {
   }
 
   void _loadGif(GifPlayerDataSourceType type) {
-    _controller?.dispose();
+    // _controller?.dispose();
     switch (type) {
       case GifPlayerDataSourceType.asset:
         _controller = GifPlayerController(
@@ -63,7 +64,9 @@ class _DataSourcePageState extends State<DataSourcePage> {
       body: null != _controller
           ? Stack(
               children: [
-                GifPlayer(controller: controller),
+                Positioned.fill(
+                  child: GifPlayer(controller: controller),
+                ),
                 Container(
                   margin: const EdgeInsets.only(top: 100),
                   alignment: Alignment.topCenter,

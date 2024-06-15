@@ -26,7 +26,7 @@ class _ProgressBarPaddingBottomPageState
   }
 
   void _loadGif(double paddingBottom) {
-    _controller?.dispose();
+    // _controller?.dispose();
     _controller = GifPlayerController(
         dataSource: GifPlayerDataSource.asset(assetGifUrl),
         controlsConf:
@@ -41,21 +41,17 @@ class _ProgressBarPaddingBottomPageState
         title: const Text('progress bar padding bottom'),
       ),
       body: null != _controller
-          ? Stack(
+          ? ListView(
               children: [
-                GifPlayer(controller: controller),
-                Container(
-                  padding: const EdgeInsets.only(top: 100),
-                  alignment: Alignment.topCenter,
-                  child: GroupButton(
-                    controller: _groupButtonController,
-                    buttons: const [20, 40, 60, 80, 100],
-                    onSelected: (int title, idx, selected) {
-                      _groupButtonController.selectIndex(idx);
-                      _loadGif(title.toDouble());
-                    },
-                  ),
-                )
+                GroupButton(
+                  controller: _groupButtonController,
+                  buttons: const [20, 40, 60, 80, 100],
+                  onSelected: (int title, idx, selected) {
+                    _groupButtonController.selectIndex(idx);
+                    _loadGif(title.toDouble());
+                  },
+                ),
+                GifPlayer(controller: controller)
               ],
             )
           : Container(),

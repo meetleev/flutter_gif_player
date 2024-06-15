@@ -133,7 +133,9 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
 
   /// emit event
   void emit<T>(T event) {
-    _streamController.add(event);
+    if (!_streamController.isClosed) {
+      _streamController.add(event);
+    }
   }
 
   /// Listen on the given [listener].

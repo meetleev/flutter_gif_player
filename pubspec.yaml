@@ -1,6 +1,6 @@
 name: gif_player
 description: "A Flutter package for playing GIFs with features like play, pause, and seek. Control your GIF playback easily in your app."
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/meetleev
 repository: https://github.com/meetleev/flutter_gif_player
 topics:
@@ -19,7 +19,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -6,8 +6,11 @@ import 'widget/player_controls.dart';
 import 'gif_player_controller.dart';
 
 class GifPlayer extends StatefulWidget {
-  /// the controller of GifPlayer.
+  /// the controller of [GifPlayer].
   final GifPlayerController controller;
+
+  /// Whether to automatically destroy the controller
+  final bool isAutoDisposeController;
 
   /// see [RawImage] for the following parameters.
   final double scale;
@@ -21,12 +24,12 @@ class GifPlayer extends StatefulWidget {
   final bool matchTextDirection;
   final bool invertColors;
   final FilterQuality filterQuality;
-
   final bool isAntiAlias;
 
   const GifPlayer(
       {super.key,
       required this.controller,
+      this.isAutoDisposeController = true,
       this.scale = 1.0,
       this.color,
       this.opacity,
@@ -77,13 +80,18 @@ class GifPlayerState extends State<GifPlayer> {
   void didUpdateWidget(GifPlayer oldWidget) {
     if (oldWidget.controller != widget.controller) {
       widget.controller.addPlayerEventListener(_onPlayerEvent);
+      if (oldWidget.isAutoDisposeController) {
+        oldWidget.controller.dispose();
+      }
     }
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
-    widget.controller.dispose();
+    if (widget.isAutoDisposeController) {
+      widget.controller.dispose();
+    }
     super.dispose();
   }
 

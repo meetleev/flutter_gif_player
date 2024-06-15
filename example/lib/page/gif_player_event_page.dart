@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:example/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:gif_player/gif_player.dart';
@@ -51,7 +53,7 @@ class _GifPlayerEventPageState extends State<GifPlayerEventPage> {
   }
 
   void _loadGif() {
-    _controller?.dispose();
+    // _controller?.dispose();
     _controller = GifPlayerController(
         backgroundColor: Colors.black,
         dataSource: GifPlayerDataSource.asset(assetGifUrl),
@@ -68,7 +70,10 @@ class _GifPlayerEventPageState extends State<GifPlayerEventPage> {
       body: null != _controller
           ? Stack(
               children: [
-                GifPlayer(controller: controller, fit: BoxFit.fill),
+                SizedBox(
+                  width: double.infinity,
+                  child: GifPlayer(controller: controller, fit: BoxFit.fill),
+                ),
                 Container(
                   alignment: Alignment.topCenter,
                   padding: const EdgeInsets.only(top: 100),
