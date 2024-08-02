@@ -1,5 +1,4 @@
 import 'package:example/constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gif_player/gif_player.dart';
@@ -62,13 +61,11 @@ class _DataSourcePageState extends State<DataSourcePage> {
         title: const Text('Data source'),
       ),
       body: null != _controller
-          ? Stack(
+          ? Center(
+              child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Positioned.fill(
-                  child: GifPlayer(controller: controller),
-                ),
                 Container(
-                  margin: const EdgeInsets.only(top: 100),
                   alignment: Alignment.topCenter,
                   child: GroupButton(
                     controller: _groupButtonController,
@@ -78,15 +75,11 @@ class _DataSourcePageState extends State<DataSourcePage> {
                       _loadGif(GifPlayerDataSourceType.values[idx]);
                     },
                   ),
-                )
+                ),
+                GifPlayer(controller: controller),
               ],
-            )
-          : Container(),
+            ))
+          : const SizedBox.shrink(),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

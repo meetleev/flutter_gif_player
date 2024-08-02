@@ -36,6 +36,9 @@ class GifPlayerValue {
   /// The size is [Size.zero] if the gif hasn't been initialized.
   final Size size;
 
+  /// Flag used to store full screen mode state.
+  final bool isFullScreen;
+
   GifPlayerValue(
       {required this.duration,
       this.isInitialized = false,
@@ -43,6 +46,7 @@ class GifPlayerValue {
       this.isPlaying = false,
       this.isLooping = false,
       this.isCompleted = false,
+      this.isFullScreen = false,
       Size? size})
       : size = size ?? Size.zero;
 
@@ -53,6 +57,7 @@ class GifPlayerValue {
       bool? isPlaying,
       bool? isLooping,
       bool? isCompleted,
+      bool? isFullScreen,
       Size? size}) {
     return GifPlayerValue(
         duration: duration ?? this.duration,
@@ -61,6 +66,7 @@ class GifPlayerValue {
         isPlaying: isPlaying ?? this.isPlaying,
         isLooping: isLooping ?? this.isLooping,
         isCompleted: isCompleted ?? this.isCompleted,
+        isFullScreen: isFullScreen ?? this.isFullScreen,
         size: size ?? this.size);
   }
 }
@@ -74,10 +80,7 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
   final Widget? placeholder;
 
   /// Flag used to store full screen mode state.
-  final bool _isFullScreen = false;
-
-  /// Flag used to store full screen mode state.
-  bool get isFullScreen => _isFullScreen;
+  bool get isFullScreen => value.isFullScreen;
 
   /// Whether or not to show the controls at all
   final bool showControls;
@@ -95,9 +98,6 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
   /// The controlsConfiguration to use for the Material Progress Bar.
   final GifPlayerControlsConfiguration controlsConfiguration;
 
-  /// Color of the background, when no frame is displayed.
-  final Color? backgroundColor;
-
   /// Play the gif as soon as it's displayed
   final bool isAutoPlay;
 
@@ -107,18 +107,20 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
 
   GifPlayerController(
       {required this.dataSource,
-      this.backgroundColor,
       this.placeholder,
       this.showControls = true,
       this.showPlayButton = true,
       this.customControls,
       this.isAutoPlay = true,
       bool isAutoInitialize = true,
+      bool isFullScreen = false,
+      bool loop = false,
       this.hideControlsTimer = _defaultHideControlsTimer,
       GifPlayerControlsConfiguration? controlsConf})
       : controlsConfiguration =
             controlsConf ?? GifPlayerControlsConfiguration(),
-        super(GifPlayerValue(duration: 0)) {
+        super(GifPlayerValue(
+            duration: 0, isFullScreen: isFullScreen, isLooping: loop)) {
     if (isAutoInitialize) {
       initialize();
     }
@@ -145,7 +147,11 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
   }
 
   Future<void> play() async {
-    value = value.copyWith(isPlaying: true);
+    int? position;
+    if (value.isCompleted) {
+      position = 0;
+    }
+    value = value.copyWith(isPlaying: true, position: position);
     await _runLoop();
     emit(GifPlayerEvent(eventType: GifPlayerEventType.play));
   }
@@ -156,11 +162,15 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
   }
 
   Future<void> seekTo(int position) async {
+    if (value.isPlaying) {
+      value = value.copyWith(isPlaying: false);
+    }
     if (_isNeedFixPosition(position)) {
       position = _fixPosition(position);
     }
     value = value.copyWith(position: position);
     emit(GifPlayerEvent(eventType: GifPlayerEventType.seekTo, data: position));
+    await play();
   }
 
   void setLoop(bool loop) {
@@ -237,10 +247,12 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
           imageInfo.image.width.toDouble(), imageInfo.image.height.toDouble());
       _gifFrames.add(imageInfo);
     }
-    value = GifPlayerValue(
+    value = value.copyWith(
         duration: _gifFrames.length - 1,
         position: 0,
         isInitialized: true,
+        isCompleted: false,
+        isPlaying: false,
         size: size);
     emit(GifPlayerEvent(eventType: GifPlayerEventType.initialized));
     initializeCompleter.complete();

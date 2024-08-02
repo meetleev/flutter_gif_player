@@ -54,12 +54,7 @@ class _ProgressBarPaddingBottomPageState
                 GifPlayer(controller: controller)
               ],
             )
-          : Container(),
+          : const SizedBox.shrink(),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

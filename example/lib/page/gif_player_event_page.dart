@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:example/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:gif_player/gif_player.dart';
@@ -55,7 +53,7 @@ class _GifPlayerEventPageState extends State<GifPlayerEventPage> {
   void _loadGif() {
     // _controller?.dispose();
     _controller = GifPlayerController(
-        backgroundColor: Colors.black,
+        isFullScreen: true,
         dataSource: GifPlayerDataSource.asset(assetGifUrl),
         controlsConf: GifPlayerControlsConfiguration(paddingBottom: 20));
     setState(() {});
@@ -70,10 +68,7 @@ class _GifPlayerEventPageState extends State<GifPlayerEventPage> {
       body: null != _controller
           ? Stack(
               children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: GifPlayer(controller: controller, fit: BoxFit.fill),
-                ),
+                GifPlayer(controller: controller, fit: BoxFit.fill),
                 Container(
                   alignment: Alignment.topCenter,
                   padding: const EdgeInsets.only(top: 100),
@@ -84,12 +79,7 @@ class _GifPlayerEventPageState extends State<GifPlayerEventPage> {
                 )
               ],
             )
-          : Container(),
+          : const SizedBox.shrink(),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }
