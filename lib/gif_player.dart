@@ -1,4 +1,4 @@
-library gif_player;
+library;
 
 export 'src/gif_player.dart';
 export 'src/gif_player_controller.dart';

@@ -82,8 +82,6 @@ class PlayerControls extends StatelessWidget {
       // return const MaterialDesktopControls();
       case TargetPlatform.iOS:
         return const CupertinoControls();
-      default:
-        return const MaterialControls();
     }
   }
 }

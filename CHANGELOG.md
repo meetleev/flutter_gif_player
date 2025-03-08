@@ -1,3 +1,6 @@
+## 0.0.7
+* Updates minimum supported SDK version to Flutter 3.19/Dart 3.3.
+
 ## 0.0.6
 * fixed some bugs
 * supported FullScreen;
