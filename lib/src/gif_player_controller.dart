@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' if (dart.library.html) 'dart:js_interop';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -39,35 +39,37 @@ class GifPlayerValue {
   /// Flag used to store full screen mode state.
   final bool isFullScreen;
 
-  GifPlayerValue(
-      {required this.duration,
-      this.isInitialized = false,
-      this.position = 0,
-      this.isPlaying = false,
-      this.isLooping = false,
-      this.isCompleted = false,
-      this.isFullScreen = false,
-      Size? size})
-      : size = size ?? Size.zero;
+  GifPlayerValue({
+    required this.duration,
+    this.isInitialized = false,
+    this.position = 0,
+    this.isPlaying = false,
+    this.isLooping = false,
+    this.isCompleted = false,
+    this.isFullScreen = false,
+    Size? size,
+  }) : size = size ?? Size.zero;
 
-  GifPlayerValue copyWith(
-      {int? duration,
-      int? position,
-      bool? isInitialized,
-      bool? isPlaying,
-      bool? isLooping,
-      bool? isCompleted,
-      bool? isFullScreen,
-      Size? size}) {
+  GifPlayerValue copyWith({
+    int? duration,
+    int? position,
+    bool? isInitialized,
+    bool? isPlaying,
+    bool? isLooping,
+    bool? isCompleted,
+    bool? isFullScreen,
+    Size? size,
+  }) {
     return GifPlayerValue(
-        duration: duration ?? this.duration,
-        position: position ?? this.position,
-        isInitialized: isInitialized ?? this.isInitialized,
-        isPlaying: isPlaying ?? this.isPlaying,
-        isLooping: isLooping ?? this.isLooping,
-        isCompleted: isCompleted ?? this.isCompleted,
-        isFullScreen: isFullScreen ?? this.isFullScreen,
-        size: size ?? this.size);
+      duration: duration ?? this.duration,
+      position: position ?? this.position,
+      isInitialized: isInitialized ?? this.isInitialized,
+      isPlaying: isPlaying ?? this.isPlaying,
+      isLooping: isLooping ?? this.isLooping,
+      isCompleted: isCompleted ?? this.isCompleted,
+      isFullScreen: isFullScreen ?? this.isFullScreen,
+      size: size ?? this.size,
+    );
   }
 }
 
@@ -105,22 +107,26 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
 
   final List<FrameInfo> _gifFrames = [];
 
-  GifPlayerController(
-      {required this.dataSource,
-      this.placeholder,
-      this.showControls = true,
-      this.showPlayButton = true,
-      this.customControls,
-      this.isAutoPlay = true,
-      bool isAutoInitialize = true,
-      bool isFullScreen = false,
-      bool loop = false,
-      this.hideControlsTimer = _defaultHideControlsTimer,
-      GifPlayerControlsConfiguration? controlsConf})
-      : controlsConfiguration =
-            controlsConf ?? GifPlayerControlsConfiguration(),
-        super(GifPlayerValue(
-            duration: 0, isFullScreen: isFullScreen, isLooping: loop)) {
+  GifPlayerController({
+    required this.dataSource,
+    this.placeholder,
+    this.showControls = true,
+    this.showPlayButton = true,
+    this.customControls,
+    this.isAutoPlay = true,
+    bool isAutoInitialize = true,
+    bool isFullScreen = false,
+    bool loop = false,
+    this.hideControlsTimer = _defaultHideControlsTimer,
+    GifPlayerControlsConfiguration? controlsConf,
+  }) : controlsConfiguration = controlsConf ?? GifPlayerControlsConfiguration(),
+       super(
+         GifPlayerValue(
+           duration: 0,
+           isFullScreen: isFullScreen,
+           isLooping: loop,
+         ),
+       ) {
     if (isAutoInitialize) {
       initialize();
     }
@@ -142,7 +148,8 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
 
   /// Listen on the given [listener].
   StreamSubscription<GifPlayerEvent> addPlayerEventListener(
-      GifPlayerEventListener listener) {
+    GifPlayerEventListener listener,
+  ) {
     return on<GifPlayerEvent>().listen(listener);
   }
 
@@ -184,50 +191,73 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
     switch (dataSource.type) {
       case GifPlayerDataSourceType.network:
         try {
-          final response = await http.get(Uri.parse(dataSource.url),
-              headers: dataSource.headers);
-          if (HttpStatus.ok == response.statusCode) {
+          final response = await http.get(
+            Uri.parse(dataSource.url),
+            headers: dataSource.headers,
+          );
+          if (200 == response.statusCode) {
             imageData = response.bodyBytes;
             if (imageData.lengthInBytes == 0) {
               error = FlutterErrorDetails(
-                  exception: 'gif is an empty file: ${dataSource.url}',
-                  library: Constants.libraryName);
+                exception: 'gif is an empty file: ${dataSource.url}',
+                library: Constants.libraryName,
+              );
             }
           } else {
             error = FlutterErrorDetails(
-                exception: 'http ${response.statusCode}',
-                library: Constants.libraryName);
+              exception: 'http ${response.statusCode}',
+              library: Constants.libraryName,
+            );
           }
         } catch (e, s) {
           error = FlutterErrorDetails(
-              exception: e, stack: s, library: Constants.libraryName);
+            exception: e,
+            stack: s,
+            library: Constants.libraryName,
+          );
         }
         break;
       case GifPlayerDataSourceType.asset:
         try {
           final image = AssetImage(dataSource.url, package: dataSource.package);
-          AssetBundleImageKey imageKey =
-              await image.obtainKey(const ImageConfiguration());
+          AssetBundleImageKey imageKey = await image.obtainKey(
+            const ImageConfiguration(),
+          );
           final data = await imageKey.bundle.load(imageKey.name);
           imageData = data.buffer.asUint8List();
         } catch (e, s) {
           error = FlutterErrorDetails(
-              exception: e, stack: s, library: Constants.libraryName);
+            exception: e,
+            stack: s,
+            library: Constants.libraryName,
+          );
         }
         break;
       case GifPlayerDataSourceType.file:
+        if (kIsWeb) {
+          Future<void>.error(
+            UnimplementedError(
+              'web implementation of video_player cannot play local files',
+            ),
+          );
+          return;
+        }
         try {
           var file = File(dataSource.url);
           if (file.existsSync()) {
             imageData = await file.readAsBytes();
           } else {
             error = const FlutterErrorDetails(
-                exception: 'file does not exists!',
-                library: Constants.libraryName);
+              exception: 'file does not exists!',
+              library: Constants.libraryName,
+            );
           }
         } catch (e, s) {
           error = FlutterErrorDetails(
-              exception: e, stack: s, library: Constants.libraryName);
+            exception: e,
+            stack: s,
+            library: Constants.libraryName,
+          );
         }
         break;
     }
@@ -235,25 +265,25 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
       initializeCompleter.completeError(error ?? 'unknown error');
       return initializeCompleter.future;
     }
-    Codec codec = await instantiateImageCodec(
-      imageData,
-      allowUpscaling: false,
-    );
+    Codec codec = await instantiateImageCodec(imageData, allowUpscaling: false);
     _gifFrames.clear();
     Size? size;
     for (int i = 0; i < codec.frameCount; i++) {
       final imageInfo = await codec.getNextFrame();
       size ??= Size(
-          imageInfo.image.width.toDouble(), imageInfo.image.height.toDouble());
+        imageInfo.image.width.toDouble(),
+        imageInfo.image.height.toDouble(),
+      );
       _gifFrames.add(imageInfo);
     }
     value = value.copyWith(
-        duration: _gifFrames.length - 1,
-        position: 0,
-        isInitialized: true,
-        isCompleted: false,
-        isPlaying: false,
-        size: size);
+      duration: _gifFrames.length - 1,
+      position: 0,
+      isInitialized: true,
+      isCompleted: false,
+      isPlaying: false,
+      size: size,
+    );
     emit(GifPlayerEvent(eventType: GifPlayerEventType.initialized));
     initializeCompleter.complete();
     if (isAutoPlay) {
@@ -318,8 +348,9 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
   }
 
   static GifPlayerController of(BuildContext context) {
-    final provider = context
-        .dependOnInheritedWidgetOfExactType<GifPlayerControllerProvider>()!;
+    final provider =
+        context
+            .dependOnInheritedWidgetOfExactType<GifPlayerControllerProvider>()!;
     return provider.controller;
   }
 }
@@ -327,8 +358,11 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
 class GifPlayerControllerProvider extends InheritedWidget {
   final GifPlayerController controller;
 
-  const GifPlayerControllerProvider(
-      {super.key, required super.child, required this.controller});
+  const GifPlayerControllerProvider({
+    super.key,
+    required super.child,
+    required this.controller,
+  });
 
   @override
   bool updateShouldNotify(GifPlayerControllerProvider oldWidget) =>
