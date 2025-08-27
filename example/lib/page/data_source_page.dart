@@ -16,8 +16,9 @@ class _DataSourcePageState extends State<DataSourcePage> {
   GifPlayerController? _controller;
 
   GifPlayerController get controller => _controller!;
-  final GroupButtonController _groupButtonController =
-      GroupButtonController(selectedIndex: 0);
+  final GroupButtonController _groupButtonController = GroupButtonController(
+    selectedIndex: 0,
+  );
 
   @override
   void initState() {
@@ -30,20 +31,23 @@ class _DataSourcePageState extends State<DataSourcePage> {
     switch (type) {
       case GifPlayerDataSourceType.asset:
         _controller = GifPlayerController(
-            dataSource: GifPlayerDataSource.asset(assetGifUrl));
+          dataSource: GifPlayerDataSource.asset(assetGifUrl),
+        );
         setState(() {});
         break;
       case GifPlayerDataSourceType.network:
         _controller = GifPlayerController(
-            dataSource: GifPlayerDataSource.network(remoteGifUrl),
-            controlsConf: GifPlayerControlsConfiguration(paddingBottom: 10));
+          dataSource: GifPlayerDataSource.network(remoteGifUrl),
+          controlsConf: GifPlayerControlsConfiguration(paddingBottom: 10),
+        );
         setState(() {});
         break;
       case GifPlayerDataSourceType.file:
         getTemporaryDirectory().then((directory) {
           final String url = '${directory.path}/$fileGifName';
-          _controller =
-              GifPlayerController(dataSource: GifPlayerDataSource.file(url));
+          _controller = GifPlayerController(
+            dataSource: GifPlayerDataSource.file(url),
+          );
           setState(() {});
         });
         break;
@@ -57,29 +61,29 @@ class _DataSourcePageState extends State<DataSourcePage> {
       buttonLabs.add('file');
     }
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Data source'),
-      ),
-      body: null != _controller
-          ? Center(
-              child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  alignment: Alignment.topCenter,
-                  child: GroupButton(
-                    controller: _groupButtonController,
-                    buttons: buttonLabs,
-                    onSelected: (title, idx, selected) {
-                      _groupButtonController.selectIndex(idx);
-                      _loadGif(GifPlayerDataSourceType.values[idx]);
-                    },
-                  ),
+      appBar: AppBar(title: const Text('Data source')),
+      body:
+          null != _controller
+              ? Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      alignment: Alignment.topCenter,
+                      child: GroupButton(
+                        controller: _groupButtonController,
+                        buttons: buttonLabs,
+                        onSelected: (title, idx, selected) {
+                          _groupButtonController.selectIndex(idx);
+                          _loadGif(GifPlayerDataSourceType.values[idx]);
+                        },
+                      ),
+                    ),
+                    GifPlayer(controller: controller),
+                  ],
                 ),
-                GifPlayer(controller: controller),
-              ],
-            ))
-          : const SizedBox.shrink(),
+              )
+              : const SizedBox.shrink(),
     );
   }
 }

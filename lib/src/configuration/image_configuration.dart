@@ -15,17 +15,18 @@ class GifImageConfiguration {
 
   final bool isAntiAlias;
 
-  GifImageConfiguration(
-      {this.scale = 1.0,
-      this.color,
-      this.opacity,
-      this.colorBlendMode,
-      this.fit,
-      this.alignment = Alignment.center,
-      this.repeat = ImageRepeat.noRepeat,
-      this.centerSlice,
-      this.matchTextDirection = false,
-      this.invertColors = false,
-      this.filterQuality = FilterQuality.low,
-      this.isAntiAlias = false});
+  GifImageConfiguration({
+    this.scale = 1.0,
+    this.color,
+    this.opacity,
+    this.colorBlendMode,
+    this.fit,
+    this.alignment = Alignment.center,
+    this.repeat = ImageRepeat.noRepeat,
+    this.centerSlice,
+    this.matchTextDirection = false,
+    this.invertColors = false,
+    this.filterQuality = FilterQuality.low,
+    this.isAntiAlias = false,
+  });
 }

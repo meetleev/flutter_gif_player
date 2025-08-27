@@ -16,8 +16,9 @@ class _ProgressBarPaddingBottomPageState
   GifPlayerController? _controller;
 
   GifPlayerController get controller => _controller!;
-  final GroupButtonController _groupButtonController =
-      GroupButtonController(selectedIndex: 0);
+  final GroupButtonController _groupButtonController = GroupButtonController(
+    selectedIndex: 0,
+  );
 
   @override
   void initState() {
@@ -28,33 +29,34 @@ class _ProgressBarPaddingBottomPageState
   void _loadGif(double paddingBottom) {
     // _controller?.dispose();
     _controller = GifPlayerController(
-        dataSource: GifPlayerDataSource.asset(assetGifUrl),
-        controlsConf:
-            GifPlayerControlsConfiguration(paddingBottom: paddingBottom));
+      dataSource: GifPlayerDataSource.asset(assetGifUrl),
+      controlsConf: GifPlayerControlsConfiguration(
+        paddingBottom: paddingBottom,
+      ),
+    );
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('progress bar padding bottom'),
-      ),
-      body: null != _controller
-          ? ListView(
-              children: [
-                GroupButton(
-                  controller: _groupButtonController,
-                  buttons: const [20, 40, 60, 80, 100],
-                  onSelected: (int title, idx, selected) {
-                    _groupButtonController.selectIndex(idx);
-                    _loadGif(title.toDouble());
-                  },
-                ),
-                GifPlayer(controller: controller)
-              ],
-            )
-          : const SizedBox.shrink(),
+      appBar: AppBar(title: const Text('progress bar padding bottom')),
+      body:
+          null != _controller
+              ? ListView(
+                children: [
+                  GroupButton(
+                    controller: _groupButtonController,
+                    buttons: const [20, 40, 60, 80, 100],
+                    onSelected: (int title, idx, selected) {
+                      _groupButtonController.selectIndex(idx);
+                      _loadGif(title.toDouble());
+                    },
+                  ),
+                  GifPlayer(controller: controller),
+                ],
+              )
+              : const SizedBox.shrink(),
     );
   }
 }

@@ -26,22 +26,23 @@ class GifPlayer extends StatefulWidget {
   final FilterQuality filterQuality;
   final bool isAntiAlias;
 
-  const GifPlayer(
-      {super.key,
-      required this.controller,
-      this.isAutoDisposeController = true,
-      this.scale = 1.0,
-      this.color,
-      this.opacity,
-      this.colorBlendMode,
-      this.fit,
-      this.alignment = Alignment.center,
-      this.repeat = ImageRepeat.noRepeat,
-      this.centerSlice,
-      this.matchTextDirection = false,
-      this.invertColors = false,
-      this.filterQuality = FilterQuality.low,
-      this.isAntiAlias = false});
+  const GifPlayer({
+    super.key,
+    required this.controller,
+    this.isAutoDisposeController = true,
+    this.scale = 1.0,
+    this.color,
+    this.opacity,
+    this.colorBlendMode,
+    this.fit,
+    this.alignment = Alignment.center,
+    this.repeat = ImageRepeat.noRepeat,
+    this.centerSlice,
+    this.matchTextDirection = false,
+    this.invertColors = false,
+    this.filterQuality = FilterQuality.low,
+    this.isAntiAlias = false,
+  });
 
   @override
   State<GifPlayer> createState() => GifPlayerState();
@@ -57,23 +58,25 @@ class GifPlayerState extends State<GifPlayer> {
   @override
   Widget build(BuildContext context) {
     return GifPlayerControllerProvider(
+      controller: widget.controller,
+      child: PlayerControls(
         controller: widget.controller,
-        child: PlayerControls(
-          controller: widget.controller,
-          imageConfiguration: GifImageConfiguration(
-              scale: widget.scale,
-              color: widget.color,
-              opacity: widget.opacity,
-              colorBlendMode: widget.colorBlendMode,
-              fit: widget.fit,
-              alignment: widget.alignment,
-              repeat: widget.repeat,
-              centerSlice: widget.centerSlice,
-              matchTextDirection: widget.matchTextDirection,
-              invertColors: widget.invertColors,
-              filterQuality: widget.filterQuality,
-              isAntiAlias: widget.isAntiAlias),
-        ));
+        imageConfiguration: GifImageConfiguration(
+          scale: widget.scale,
+          color: widget.color,
+          opacity: widget.opacity,
+          colorBlendMode: widget.colorBlendMode,
+          fit: widget.fit,
+          alignment: widget.alignment,
+          repeat: widget.repeat,
+          centerSlice: widget.centerSlice,
+          matchTextDirection: widget.matchTextDirection,
+          invertColors: widget.invertColors,
+          filterQuality: widget.filterQuality,
+          isAntiAlias: widget.isAntiAlias,
+        ),
+      ),
+    );
   }
 
   @override

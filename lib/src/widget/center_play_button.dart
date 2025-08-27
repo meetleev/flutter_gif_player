@@ -32,13 +32,14 @@ class CenterPlayButton extends StatelessWidget {
             shape: BoxShape.circle,
           ),
           child: AdaptiveButton(
-            icon: isFinished
-                ? Icon(Icons.replay, color: iconColor, size: 32)
-                : AnimatedPlayPause(
-                    color: iconColor,
-                    playing: isPlaying,
-                    scale: 2,
-                  ),
+            icon:
+                isFinished
+                    ? Icon(Icons.replay, color: iconColor, size: 32)
+                    : AnimatedPlayPause(
+                      color: iconColor,
+                      playing: isPlaying,
+                      scale: 2,
+                    ),
             onPressed: onPressed,
           ),
         ),
@@ -123,8 +124,12 @@ class AdaptiveButton extends StatelessWidget {
   /// See [Icon], [ImageIcon].
   final Widget icon;
 
-  const AdaptiveButton(
-      {super.key, this.iconSize, this.onPressed, required this.icon});
+  const AdaptiveButton({
+    super.key,
+    this.iconSize,
+    this.onPressed,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +138,10 @@ class AdaptiveButton extends StatelessWidget {
         return IconButton(iconSize: iconSize, onPressed: onPressed, icon: icon);
       case TargetPlatform.iOS:
         return CupertinoButton(
-            minimumSize: null != iconSize ? Size.fromRadius(iconSize!) : null,
-            onPressed: onPressed,
-            child: icon);
+          minimumSize: null != iconSize ? Size.fromRadius(iconSize!) : null,
+          onPressed: onPressed,
+          child: icon,
+        );
       default:
         return IconButton(iconSize: iconSize, onPressed: onPressed, icon: icon);
     }

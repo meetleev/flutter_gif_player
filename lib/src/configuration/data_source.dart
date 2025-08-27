@@ -32,20 +32,16 @@ class GifPlayerDataSource {
     this.headers = const {},
   });
 
-  GifPlayerDataSource.network(
-    this.url, {
-    this.headers = const {},
-  })  : type = GifPlayerDataSourceType.network,
-        package = null;
+  GifPlayerDataSource.network(this.url, {this.headers = const {}})
+    : type = GifPlayerDataSourceType.network,
+      package = null;
 
-  GifPlayerDataSource.asset(
-    this.url, {
-    this.package,
-  })  : type = GifPlayerDataSourceType.asset,
-        headers = const {};
+  GifPlayerDataSource.asset(this.url, {this.package})
+    : type = GifPlayerDataSourceType.asset,
+      headers = const {};
 
   GifPlayerDataSource.file(this.url)
-      : type = GifPlayerDataSourceType.file,
-        package = null,
-        headers = const {};
+    : type = GifPlayerDataSourceType.file,
+      package = null,
+      headers = const {};
 }

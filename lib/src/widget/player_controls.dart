@@ -17,13 +17,13 @@ class PlayerControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: _buildPlayerControls(context, controller),
-    );
+    return Center(child: _buildPlayerControls(context, controller));
   }
 
   Widget _buildPlayerControls(
-      BuildContext context, GifPlayerController gifPlayerController) {
+    BuildContext context,
+    GifPlayerController gifPlayerController,
+  ) {
     if (!gifPlayerController.value.isInitialized) {
       return gifPlayerController.placeholder ?? Container();
     }
@@ -35,36 +35,39 @@ class PlayerControls extends StatelessWidget {
           listenable: gifPlayerController,
           builder: (BuildContext context, Widget? child) {
             return RawImage(
-                image: gifPlayerController.currentFrame.image,
-                scale: imageConfiguration.scale,
-                color: imageConfiguration.color,
-                opacity: imageConfiguration.opacity,
-                width: gifPlayerController.isFullScreen
-                    ? mediaQuery.size.width
-                    : null,
-                height: gifPlayerController.isFullScreen
-                    ? mediaQuery.size.height
-                    : null,
-                fit: imageConfiguration.fit,
-                colorBlendMode: imageConfiguration.colorBlendMode,
-                alignment: imageConfiguration.alignment,
-                repeat: imageConfiguration.repeat,
-                centerSlice: imageConfiguration.centerSlice,
-                matchTextDirection: imageConfiguration.matchTextDirection,
-                invertColors: imageConfiguration.invertColors,
-                filterQuality: imageConfiguration.filterQuality,
-                isAntiAlias: imageConfiguration.isAntiAlias);
+              image: gifPlayerController.currentFrame.image,
+              scale: imageConfiguration.scale,
+              color: imageConfiguration.color,
+              opacity: imageConfiguration.opacity,
+              width:
+                  gifPlayerController.isFullScreen
+                      ? mediaQuery.size.width
+                      : null,
+              height:
+                  gifPlayerController.isFullScreen
+                      ? mediaQuery.size.height
+                      : null,
+              fit: imageConfiguration.fit,
+              colorBlendMode: imageConfiguration.colorBlendMode,
+              alignment: imageConfiguration.alignment,
+              repeat: imageConfiguration.repeat,
+              centerSlice: imageConfiguration.centerSlice,
+              matchTextDirection: imageConfiguration.matchTextDirection,
+              invertColors: imageConfiguration.invertColors,
+              filterQuality: imageConfiguration.filterQuality,
+              isAntiAlias: imageConfiguration.isAntiAlias,
+            );
           },
         ),
-        Positioned.fill(
-          child: _buildControls(context, gifPlayerController),
-        )
+        Positioned.fill(child: _buildControls(context, gifPlayerController)),
       ],
     );
   }
 
   Widget _buildControls(
-      BuildContext context, GifPlayerController gifPlayerController) {
+    BuildContext context,
+    GifPlayerController gifPlayerController,
+  ) {
     if (gifPlayerController.showControls) {
       return gifPlayerController.customControls ?? _controlsAdapter(context);
     }

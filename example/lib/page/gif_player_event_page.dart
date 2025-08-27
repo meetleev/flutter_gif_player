@@ -53,33 +53,30 @@ class _GifPlayerEventPageState extends State<GifPlayerEventPage> {
   void _loadGif() {
     // _controller?.dispose();
     _controller = GifPlayerController(
-        isFullScreen: true,
-        dataSource: GifPlayerDataSource.asset(assetGifUrl),
-        controlsConf: GifPlayerControlsConfiguration(paddingBottom: 20));
+      isFullScreen: true,
+      dataSource: GifPlayerDataSource.asset(assetGifUrl),
+      controlsConf: GifPlayerControlsConfiguration(paddingBottom: 20),
+    );
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('GifPlayer Event'),
-      ),
-      body: null != _controller
-          ? Stack(
-              children: [
-                GifPlayer(controller: controller, fit: BoxFit.fill),
-                Container(
-                  alignment: Alignment.topCenter,
-                  padding: const EdgeInsets.only(top: 100),
-                  child: Text(
-                    _event,
-                    style: const TextStyle(fontSize: 20),
+      appBar: AppBar(title: const Text('GifPlayer Event')),
+      body:
+          null != _controller
+              ? Stack(
+                children: [
+                  GifPlayer(controller: controller, fit: BoxFit.fill),
+                  Container(
+                    alignment: Alignment.topCenter,
+                    padding: const EdgeInsets.only(top: 100),
+                    child: Text(_event, style: const TextStyle(fontSize: 20)),
                   ),
-                )
-              ],
-            )
-          : const SizedBox.shrink(),
+                ],
+              )
+              : const SizedBox.shrink(),
     );
   }
 }

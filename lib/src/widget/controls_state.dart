@@ -111,10 +111,7 @@ abstract class ControlsState<T extends StatefulWidget> extends State<T> {
   }
 
   Widget buildMain({required Widget child}) {
-    return GestureDetector(
-      onTap: () => _restartControlsTimer(),
-      child: child,
-    );
+    return GestureDetector(onTap: () => _restartControlsTimer(), child: child);
   }
 
   Widget buildHitArea() {
@@ -180,8 +177,12 @@ abstract class ControlsState<T extends StatefulWidget> extends State<T> {
   /// Called when player controls visibility should be changed.
   void changePlayerControlsVisible(bool visible) {
     setState(() {
-      controller.emit(GifPlayerEvent(
-          eventType: GifPlayerEventType.controlsVisibleChange, data: visible));
+      controller.emit(
+        GifPlayerEvent(
+          eventType: GifPlayerEventType.controlsVisibleChange,
+          data: visible,
+        ),
+      );
       controlsVisible = visible;
     });
   }

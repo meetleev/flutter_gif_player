@@ -29,12 +29,8 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('gif player test'),
-      ),
-      body: ListView(
-        children: [..._buildExampleWidgets()],
-      ),
+      appBar: AppBar(title: const Text('gif player test')),
+      body: ListView(children: [..._buildExampleWidgets()]),
     );
   }
 
@@ -69,10 +65,7 @@ class _MaterialHomePageState extends State<MaterialHomePage> {
             color: Colors.orange,
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Text(
-              name,
-              style: const TextStyle(fontSize: 18),
-            ),
+            child: Text(name, style: const TextStyle(fontSize: 18)),
           ),
           const Divider(),
         ],

@@ -29,12 +29,13 @@ class GifPlayerControlsConfiguration {
   /// The colors to use for icon on Cupertino.
   final Color cupertinoIconColor;
 
-  GifPlayerControlsConfiguration(
-      {this.materialProgressColors,
-      this.cupertinoProgressColors,
-      this.paddingBottom = 0,
-      this.materialBackgroundColor = Colors.black12,
-      this.materialIconColor = Colors.white,
-      this.cupertinoBackgroundColor = _defaultCupertinoBackgroundColor,
-      this.cupertinoIconColor = _defaultCupertinoIconColor});
+  GifPlayerControlsConfiguration({
+    this.materialProgressColors,
+    this.cupertinoProgressColors,
+    this.paddingBottom = 0,
+    this.materialBackgroundColor = Colors.black12,
+    this.materialIconColor = Colors.white,
+    this.cupertinoBackgroundColor = _defaultCupertinoBackgroundColor,
+    this.cupertinoIconColor = _defaultCupertinoIconColor,
+  });
 }
