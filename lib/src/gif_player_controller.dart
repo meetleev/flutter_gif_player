@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io' if (dart.library.html) 'dart:js_interop';
+// import 'dart:io' if (dart.library.html) 'dart:js_interop';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -12,6 +12,10 @@ import 'configuration/controls_configuration.dart';
 import 'configuration/data_source.dart';
 import 'constants.dart';
 import 'events/player_event.dart';
+
+import 'gif_file_loader.dart'
+    if (dart.library.io) 'platform_file_loader/gif_file_loader_io.dart'
+    if (dart.library.html) 'platform_file_loader/gif_file_loader_web.dart';
 
 class GifPlayerValue {
   /// Indicates whether or not the gif has been loaded and is ready to play.
@@ -243,21 +247,20 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
           return;
         }
         try {
-          var file = File(dataSource.url);
-          if (file.existsSync()) {
-            imageData = await file.readAsBytes();
+          imageData = await loadGifDataFromPath(dataSource.url);
+        } catch (e, s) {
+          if (e is String) {
+            error = FlutterErrorDetails(
+              exception: e,
+              library: Constants.libraryName,
+            );
           } else {
-            error = const FlutterErrorDetails(
-              exception: 'file does not exists!',
+            error = FlutterErrorDetails(
+              exception: e,
+              stack: s,
               library: Constants.libraryName,
             );
           }
-        } catch (e, s) {
-          error = FlutterErrorDetails(
-            exception: e,
-            stack: s,
-            library: Constants.libraryName,
-          );
         }
         break;
     }
