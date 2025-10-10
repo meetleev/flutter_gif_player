@@ -1,5 +1,5 @@
 import 'dart:async';
-// import 'dart:io' if (dart.library.html) 'dart:js_interop';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -13,9 +13,9 @@ import 'configuration/data_source.dart';
 import 'constants.dart';
 import 'events/player_event.dart';
 
-import 'gif_file_loader.dart'
-    if (dart.library.io) 'platform_file_loader/gif_file_loader_io.dart'
-    if (dart.library.html) 'platform_file_loader/gif_file_loader_web.dart';
+import 'gif_file_loader_adapter.dart'
+    if (dart.library.io) 'file_loader_adapters/file_loader_io.dart'
+    if (dart.library.html) 'file_loader_adapters/file_loader_browser.dart';
 
 class GifPlayerValue {
   /// Indicates whether or not the gif has been loaded and is ready to play.
@@ -199,7 +199,7 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
             Uri.parse(dataSource.url),
             headers: dataSource.headers,
           );
-          if (200 == response.statusCode) {
+          if (HttpStatus.ok == response.statusCode) {
             imageData = response.bodyBytes;
             if (imageData.lengthInBytes == 0) {
               error = FlutterErrorDetails(
@@ -238,14 +238,6 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
         }
         break;
       case GifPlayerDataSourceType.file:
-        if (kIsWeb) {
-          Future<void>.error(
-            UnimplementedError(
-              'web implementation of video_player cannot play local files',
-            ),
-          );
-          return;
-        }
         try {
           imageData = await loadGifDataFromPath(dataSource.url);
         } catch (e, s) {
