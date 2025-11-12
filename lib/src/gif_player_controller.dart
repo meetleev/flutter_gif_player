@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' if (dart.library.html) 'dart:js_interop';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';

@@ -1,4 +1,4 @@
-## 0.0.9
+## 0.1.0
 * Fixed compilation errors encountered when using the package on the Web platform
   
 ## 0.0.8
