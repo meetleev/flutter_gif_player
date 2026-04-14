@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' if (dart.library.html) 'dart:js_interop';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -199,7 +198,7 @@ class GifPlayerController extends ValueNotifier<GifPlayerValue> {
             Uri.parse(dataSource.url),
             headers: dataSource.headers,
           );
-          if (HttpStatus.ok == response.statusCode) {
+          if (200 == response.statusCode) {
             imageData = response.bodyBytes;
             if (imageData.lengthInBytes == 0) {
               error = FlutterErrorDetails(

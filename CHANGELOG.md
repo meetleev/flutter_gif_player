@@ -1,3 +1,6 @@
+## 0.1.1
+* Fixed compatibility issues with Flutter Wasm runtime by removing `dart:io` dependency from common code.
+
 ## 0.1.0
 * Fixed compilation errors encountered when using the package on the Web platform
   

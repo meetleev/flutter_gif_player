@@ -22,7 +22,7 @@ class _GifPlayerEventPageState extends State<GifPlayerEventPage> {
     controller.addPlayerEventListener(_onPlayerEvent);
   }
 
-  _onPlayerEvent(GifPlayerEvent event) {
+  void _onPlayerEvent(GifPlayerEvent event) {
     final params = event.data;
     switch (event.eventType) {
       case GifPlayerEventType.initialized:

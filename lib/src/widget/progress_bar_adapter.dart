@@ -30,20 +30,16 @@ class ProgressBarAdapter extends StatelessWidget {
         handleHeight = 6;
         break;
       case TargetPlatform.fuchsia:
-        // TODO: Handle this case.
         break;
       case TargetPlatform.iOS:
         barHeight = 5;
         handleHeight = 6;
         break;
       case TargetPlatform.linux:
-        // TODO: Handle this case.
         break;
       case TargetPlatform.macOS:
-        // TODO: Handle this case.
         break;
       case TargetPlatform.windows:
-        // TODO: Handle this case.
         break;
     }
     return ProgressBar(
